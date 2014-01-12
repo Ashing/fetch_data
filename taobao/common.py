@@ -1,5 +1,7 @@
 __author__ = 'suuuch'
 #-*-coding:utf-8-*-
+import mysql_conn
+
 def get_target_url(q ,page=0 ,tab = 'all', sort = 'default'):
     '''拼装可请求的淘宝URL
     '''
@@ -30,14 +32,12 @@ def fetch_data(target_url):
         r = urlparse.urlparse(seller_url)
         exec r[4]
         # 連接到 MySQL
-        conn = MySQLdb.connect(host="127.0.0.1", user="root", passwd="rootroot", db="taobao",charset='utf8')
-        cursor = conn.cursor()
+        mysql_local = mysql_conn.mysql_connect()
+        cursor = mysql_local.retrn_conn()
         try:
             cursor.execute("""INSERT INTO t_product VALUES (%s,%s,%s,%s,%s,%s,%s)""",
                 (int(pro_id),pro_name.encode('utf8'),pro_url,price_num,seller_url,user_number_id,loc.encode('utf8')))
-            conn.commit()
         except MySQLdb.Error, e:
             err =  "error %d: %s" % (e.args[0], e.args[1])
             return err
-    conn.close()
     return 0

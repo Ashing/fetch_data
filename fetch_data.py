@@ -11,5 +11,8 @@ soup = BeautifulSoup(page)
 attributes = soup.find("div","attributes")
 
 ul = attributes.find("ul")
+lis = ul.findAll("li")
 
-print ul
+for li in lis :
+
+    print li.string
