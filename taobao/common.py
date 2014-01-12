@@ -37,7 +37,7 @@ def fetch_data(target_url):
                 (int(pro_id),pro_name.encode('utf8'),pro_url,price_num,seller_url,user_number_id,loc.encode('utf8')))
             conn.commit()
         except MySQLdb.Error, e:
-            print "error %d: %s" % (e.args[0], e.args[1])
-            return 1
+            err =  "error %d: %s" % (e.args[0], e.args[1])
+            return err
     conn.close()
     return 0
