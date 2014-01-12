@@ -14,8 +14,7 @@ for i in range(0,10):
         break
 
 
-print result
-
+print 'SUCCESS'
 
 
 
