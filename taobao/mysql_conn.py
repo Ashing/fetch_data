@@ -18,19 +18,25 @@ class mysql_connect:
         conn = MySQLdb.connect(host=__db_host, user=__db_user, passwd=__db_passwd, db=__db_name,charset=__db_charset)
         self.conn = conn
 
-    def inser_data(self,sql_content):
+    def return_data(self):
+        return self.conn.cursor()
 
-        sql_content = MySQLdb.escape_string(sql_content)
+    def inser_data(self,sql_content,data):
+
+        #sql_content = MySQLdb.escape_string(sql_content)
         try:
             cursor = self.conn.cursor()
-            cursor.execute(sql_content)
+            cursor.execute(sql_content,data)
 
         except MySQLdb.Error, e:
             err =  "error %d: %s" % (e.args[0], e.args[1])
-            print sql_content
             return err
         return 0
 
     def __del__(self):
-        self.conn.commit()
+        try:
+            self.conn.commit()
+        except MySQLdb.Error, e:
+            err = "error %d: %s" % (e.args[0], e.args[1])
+            print err
         self.conn.close()

@@ -15,11 +15,16 @@ def fetch_data(target_url):
     import urllib2
     import urlparse
     from bs4 import BeautifulSoup
-    import MySQLdb
+
     page = urllib2.urlopen(target_url)
     soup = BeautifulSoup(page)
 
     items = soup.find_all("div","item")
+
+    # 連接到 MySQL
+    mysql_local = mysql_conn.mysql_connect()
+    cursor = mysql_local.return_data()
+
     for item in items:
         user_number_id = 0
         pro_id = item['nid']
@@ -31,13 +36,18 @@ def fetch_data(target_url):
         seller_url = item.find("div","seller").find("a")['href']
         r = urlparse.urlparse(seller_url)
         exec r[4]
-        # 連接到 MySQL
-        mysql_local = mysql_conn.mysql_connect()
-        cursor = mysql_local.retrn_conn()
-        try:
-            cursor.execute("""INSERT INTO t_product VALUES (%s,%s,%s,%s,%s,%s,%s)""",
-                (int(pro_id),pro_name.encode('utf8'),pro_url,price_num,seller_url,user_number_id,loc.encode('utf8')))
-        except MySQLdb.Error, e:
-            err = "error %d: %s" % (e.args[0], e.args[1])
-            return err
-    return 0
+
+        data = (int(pro_id),pro_name.encode('utf8'),pro_url,price_num,seller_url,user_number_id,loc.encode('utf8'))
+        sql_content = "insert into t_product values ( %s , %s , %s , %s , %s , %s , %s )"
+
+        result = mysql_local.inser_data(sql_content,data)
+        if result != 0 :
+            return result
+            break
+
+        # cursor.execute("""INSERT INTO t_product VALUES (%s,%s,%s,%s,%s,%s,%s)""",
+        #     (int(pro_id),pro_name.encode('utf8'),pro_url,price_num,seller_url,user_number_id,loc.encode('utf8')))
+
+
+
+    return result
