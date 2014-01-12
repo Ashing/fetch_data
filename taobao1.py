@@ -9,15 +9,12 @@ for i in range(0,10):
     target_url = taobao.common.get_target_url('ssd',i)
     result = taobao.common.fetch_data(target_url)
 
-    if result <> 0 :
+    if result != 0 :
         print result
         break
 
 
 print result
-
-
-
 
 
 

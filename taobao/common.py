@@ -23,7 +23,7 @@ def fetch_data(target_url):
 
     # 連接到 MySQL
     mysql_local = mysql_conn.mysql_connect()
-    cursor = mysql_local.return_data()
+    #cursor = mysql_local.return_data()
 
     for item in items:
         user_number_id = 0
