@@ -4,14 +4,14 @@ import mysql_conn
 
 def get_target_url(q ,page=0 ,tab = 'all', sort = 'default'):
     '''拼装可请求的淘宝URL
-    '''
+'''
     s = page * 40
     target_url = "http://s.taobao.com/search?tab=%s&q=%s&sort=%s&s=%d" %( tab , q , sort,s )
     return target_url
 
 def fetch_data(target_url):
     '''通过传递经来的URL将数据入库
-    '''
+'''
     import urllib2
     import urlparse
     from bs4 import BeautifulSoup
@@ -38,6 +38,6 @@ def fetch_data(target_url):
             cursor.execute("""INSERT INTO t_product VALUES (%s,%s,%s,%s,%s,%s,%s)""",
                 (int(pro_id),pro_name.encode('utf8'),pro_url,price_num,seller_url,user_number_id,loc.encode('utf8')))
         except MySQLdb.Error, e:
-            err =  "error %d: %s" % (e.args[0], e.args[1])
+            err = "error %d: %s" % (e.args[0], e.args[1])
             return err
     return 0
