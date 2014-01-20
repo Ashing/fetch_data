@@ -6,5 +6,5 @@ sys.setdefaultencoding('utf-8')
 db_host = '127.0.0.1'
 db_user = 'root'
 db_passwd = 'rootroot'
-db_name = 'taobao'
+db_name = 'fetch_blog'
 db_charset = 'utf8'
